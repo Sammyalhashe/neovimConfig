@@ -1,6 +1,25 @@
 local utils = require "utils"
-local wanted = utils.valueOrDefault(vim.g.color, "carbonfox")
 
+function readColorschemeFile()
+    if not utils.file_exists("~/.colorscheme") then return {} end
+    local lines = {}
+
+    for line in io.lines(utils.expandFilePath("~/.colorscheme")) do
+        lines[#lines + 1] = line
+    end
+
+    return lines
+end
+
+local res = readColorschemeFile()
+local wanted = nil
+if #res > 0 then
+    wanted = res[1]
+end
+
+if wanted == nil then
+    wanted = utils.valueOrDefault(vim.g.color, "carbonfox")
+end
 vim.o.background = utils.valueOrDefault(vim.g.background, "dark")
 
 if utils.string_contains(wanted, "fox$") then

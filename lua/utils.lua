@@ -13,8 +13,8 @@ function M.map(type, key, value)
 end
 
 --> sets a global keymapping for the given vim 'mode'
-function M.map_allbuf(mode, key, value)
-    vim.api.nvim_set_keymap(mode, key, value, { noremap = true, silent = true });
+function M.map_allbuf(mode, key, value, desc)
+    vim.api.nvim_set_keymap(mode, key, value, { noremap = true, silent = true, desc = desc });
 end
 
 --> print a given lua table, 'table'
