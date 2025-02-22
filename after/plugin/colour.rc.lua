@@ -57,7 +57,6 @@ elseif utils.string_contains(wanted, "baby$") then
 
     vim.g.gruvbox_baby_telescope_theme = 1
 elseif utils.string_contains(wanted, "bones$") then
-    print("here")
     vim.g.zenbones_solid_line_nr = true
     vim.g.zenbones_darken_comments = 45
     vim.g.zenbones_italic_comments = true

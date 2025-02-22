@@ -162,4 +162,43 @@ end
 
 M.generate_user_config_highlights()
 
+--> Autocmd that keeps wezterm and neovim in sync on unix
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = vim.api.nvim_create_augroup("wezterm_colorscheme", { clear = true }),
+  callback = function(args)
+    local colorschemes = {
+      ["carbonfox"] = "carbonfox",
+      ["dayfox"] = "dayfox",
+      ["dawnfox"] = "dawnfox",
+      ["duskfox"] = "duskfox",
+      ["terafox"] = "terafox",
+      ["monokai-nighttasty"] = "monokai",
+      ["gruvbox"] = "GruvboxDark",
+      -- add more color schemes here ...
+    }
+    local colorscheme = colorschemes[args.match]
+    if not colorscheme then
+      return
+    end
+    -- Write the colorscheme to a file
+    local wezterm_config_dir = "$HOME/.config/wezterm/colorscheme"
+
+    if vim.g.wsl ~= 0 then
+        --> NOTE A string can also be inside `[[]]` in lua
+        local userprofile = vim.fn.system([[cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r']])
+        local wezterm_path = vim.fn.system("wslpath " .. userprofile)
+        --> NOTE Might need to change this. I currently edit in whatever the
+        --> "root" is in powershell.
+        wezterm_config_dir = wezterm_path
+    end
+    local filename = vim.fn.expand(wezterm_config_dir)
+    assert(type(filename) == "string")
+    local file = io.open(filename, "w")
+    assert(file)
+    file:write(colorscheme)
+    file:close()
+    vim.notify("Setting WezTerm color scheme to " .. colorscheme, vim.log.levels.INFO)
+  end,
+})
+
 return M
