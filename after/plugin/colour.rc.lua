@@ -19,8 +19,8 @@ end
 
 if wanted == nil then
     wanted = utils.valueOrDefault(vim.g.color, "carbonfox")
+    vim.o.background = utils.valueOrDefault(vim.g.background, "dark")
 end
-vim.o.background = utils.valueOrDefault(vim.g.background, "dark")
 
 if utils.string_contains(wanted, "fox$") then
     local status, nightfox = pcall(require, "nightfox")
@@ -77,6 +77,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       ["terafox"] = "terafox",
       ["monokai-nighttasty"] = "monokai",
       ["gruvbox"] = "GruvboxDark",
+      ["duckbones"] = "duckbones"
       -- add more color schemes here ...
     }
     local colorscheme = colorschemes[args.match]
