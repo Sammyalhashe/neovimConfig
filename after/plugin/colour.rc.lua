@@ -1,10 +1,12 @@
 local utils = require "utils"
 
+local colorscheme_file = "$HOME/.config/wezterm/colorscheme"
+
 function readColorschemeFile()
-    if not utils.file_exists("~/.colorscheme") then return {} end
+    if not utils.file_exists(colorscheme_file) then return {} end
     local lines = {}
 
-    for line in io.lines(utils.expandFilePath("~/.colorscheme")) do
+    for line in io.lines(utils.expandFilePath(colorscheme_file)) do
         lines[#lines + 1] = line
     end
 
@@ -75,7 +77,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       ["dawnfox"] = "dawnfox",
       ["duskfox"] = "duskfox",
       ["terafox"] = "terafox",
-      ["monokai-nighttasty"] = "monokai",
+      ["monokai-nightasty"] = "monokai-nightasty",
       ["gruvbox"] = "GruvboxDark",
       ["duckbones"] = "duckbones"
       -- add more color schemes here ...
@@ -85,7 +87,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       return
     end
     -- Write the colorscheme to a file
-    local wezterm_config_dir = "$HOME/.config/wezterm/colorscheme"
+    -- local colorscheme_file = "$HOME/.colorscheme"
 
     if vim.g.wsl ~= 0 then
         --> NOTE A string can also be inside `[[]]` in lua
@@ -93,9 +95,9 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         local wezterm_path = vim.fn.system("wslpath " .. userprofile)
         --> NOTE Might need to change this. I currently edit in whatever the
         --> "root" is in powershell.
-        wezterm_config_dir = wezterm_path
+        colorscheme_file = wezterm_path
     end
-    local filename = vim.fn.expand(wezterm_config_dir)
+    local filename = vim.fn.expand(colorscheme_file)
     assert(type(filename) == "string")
     local file = io.open(filename, "w")
     assert(file)
