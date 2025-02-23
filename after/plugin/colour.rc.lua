@@ -1,12 +1,13 @@
 local utils = require "utils"
 
-local colorscheme_file = "$HOME/.config/wezterm/colorscheme"
+local wezterm_colorscheme_file = "$HOME/.config/wezterm/colorscheme"
+local neovim_colorscheme_file = "$HOME/.config/nvim/colorscheme"
 
 function readColorschemeFile()
-    if not utils.file_exists(colorscheme_file) then return {} end
+    if not utils.file_exists(neovim_colorscheme_file) then return {} end
     local lines = {}
 
-    for line in io.lines(utils.expandFilePath(colorscheme_file)) do
+    for line in io.lines(utils.expandFilePath(neovim_colorscheme_file)) do
         lines[#lines + 1] = line
     end
 
@@ -77,7 +78,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       ["dawnfox"] = "dawnfox",
       ["duskfox"] = "duskfox",
       ["terafox"] = "terafox",
-      ["monokai-nightasty"] = "monokai-nightasty",
+      ["monokai-nightasty"] = "MonokaiPro (Gogh)",
       ["gruvbox"] = "GruvboxDark",
       ["duckbones"] = "duckbones"
       -- add more color schemes here ...
@@ -95,15 +96,23 @@ vim.api.nvim_create_autocmd("ColorScheme", {
         local wezterm_path = vim.fn.system("wslpath " .. userprofile)
         --> NOTE Might need to change this. I currently edit in whatever the
         --> "root" is in powershell.
-        colorscheme_file = wezterm_path
+        --> TODO Append actual wezterm path
+        wezterm_colorscheme_file = wezterm_path
     end
-    local filename = vim.fn.expand(colorscheme_file)
+    local filename = vim.fn.expand(wezterm_colorscheme_file)
     assert(type(filename) == "string")
     local file = io.open(filename, "w")
     assert(file)
     file:write(colorscheme)
     file:close()
     vim.notify("Setting WezTerm color scheme to " .. colorscheme, vim.log.levels.INFO)
+    
+    filename = vim.fn.expand(neovim_colorscheme_file)
+    assert(type(filename) == "string")
+    file = io.open(filename, "w")
+    assert(file)
+    file:write(args.match)
+    file:close()
   end,
 })
 
