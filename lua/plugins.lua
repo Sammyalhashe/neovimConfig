@@ -31,10 +31,6 @@ local main_plugins = {
     --> teriminal stuff
     { source = "akinsho/toggleterm.nvim" },
 
-    --> aesthetics
-    { source = "nvim-lualine/lualine.nvim" },
-    { source = "nanozuki/tabby.nvim" },
-
     --> git gud
     { source = "tpope/vim-fugitive" },
     { source = "pwntester/octo.nvim" },

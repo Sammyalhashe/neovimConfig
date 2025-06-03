@@ -78,9 +78,11 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       ["dawnfox"] = "dawnfox",
       ["duskfox"] = "duskfox",
       ["terafox"] = "terafox",
+      ["nightfox"] = "nightfox",
       ["monokai-nightasty"] = "MonokaiPro (Gogh)",
       ["gruvbox"] = "GruvboxDark",
-      ["duckbones"] = "duckbones"
+      ["duckbones"] = "duckbones",
+      ["vimbones"] = "vimbones"
       -- add more color schemes here ...
     }
     local colorscheme = colorschemes[args.match]

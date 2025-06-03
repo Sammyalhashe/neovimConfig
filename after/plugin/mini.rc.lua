@@ -22,10 +22,22 @@ require("mini.files").setup()
 require("mini.surround").setup()
 
 --> mini.visits
-require("mini.visits").setup({
+require("mini.visits").setup()
 
-})
+--> mini.notify
+require("mini.notify").setup()
 
+--> mini.visits
+require("mini.visits").setup()
+
+--> mini.statusline
+require("mini.statusline").setup()
+
+--> mini.tabline
+require("mini.tabline").setup()
+
+--> mini.extra
+require("mini.extra").setup()
 
 local setup_initializations = function()
     --> mini.pick
@@ -47,20 +59,20 @@ local setup_initializations = function()
     utils.map_allbuf('n', '<leader>c', minifiles .. ".open()" .. cr)
 
     --> mini.visits
-    -- utils.map_allbuf('n', '<leader>mva', lua .. mini_visits .. "add_label()" .. cr, "Add label")
-    -- utils.map_allbuf('n', '<leader>mvr', lua .. mini_visits .. "remove_label()" .. cr, "Remove label")
-    -- utils.map_allbuf('n', '<leader>mvs', lua .. mini_visits .. "select_label('','')" .. cr, "Select label (all)")
-    -- utils.map_allbuf('n', '<leader>mvc', lua .. mini_visits .. "select_label()" .. cr, "Select label (cwd)")
-
-    local map_vis = function(keys, call, desc)
-        local rhs = '<Cmd>lua MiniVisits.' .. call .. '<CR>'
+    local map_vis = function(keys, call, desc, extras)
+        local rhs
+        if not extras then
+            rhs = '<Cmd>lua MiniVisits.' .. call .. '<CR>'
+        else
+            rhs = '<Cmd>lua MiniExtra.' .. call .. '<CR>'
+        end
         vim.keymap.set('n', '<Leader>' .. keys, rhs, { desc = desc })
     end
 
-    map_vis('vv', 'add_label("core")', 'Add to core')
-    map_vis('vV', 'remove_label("core")', 'Remove from core')
-    map_vis('vc', 'select_path("", { filter = "core" })', 'Select core (all)')
-    map_vis('vC', 'select_path(nil, { filter = "core" })', 'Select core (cwd)')
+    map_vis('vv', 'add_label("core")', 'Add to core', false)
+    map_vis('vV', 'remove_label("core")', 'Remove from core', false)
+    map_vis('vc', 'pickers.visit_paths({ filter = "core" })', 'Select core (all)', true)
+    map_vis('vC', 'select_path(nil, { filter = "core" })', 'Select core (cwd)', false)
 
     -- Iterate based on recency
     local map_iterate_core = function(lhs, direction, desc)
