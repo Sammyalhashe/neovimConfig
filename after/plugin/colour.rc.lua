@@ -95,12 +95,13 @@ if vim.g.disable_wezterm_colorscheme_auto ~= nil and not vim.g.disable_wezterm_c
 
         if vim.g.wsl ~= 0 then
             --> NOTE A string can also be inside `[[]]` in lua
-            local userprofile = vim.fn.system([[cmd.exe /C "echo %USERPROFILE%" 2>/dev/null | tr -d '\r']])
+            local userprofile = vim.fn.system([[powershell.exe -c "echo $env:USERPROFILE" | tr -d '\r\n']])
             local wezterm_path = vim.fn.system("wslpath " .. userprofile)
+            local subbed = string.gsub(wezterm_path, "\n", "")
             --> NOTE Might need to change this. I currently edit in whatever the
             --> "root" is in powershell.
             --> TODO Append actual wezterm path
-            wezterm_colorscheme_file = wezterm_path
+            wezterm_colorscheme_file = subbed .. "/.config/wezterm/colorscheme"
         end
         local filename = vim.fn.expand(wezterm_colorscheme_file)
         assert(type(filename) == "string")

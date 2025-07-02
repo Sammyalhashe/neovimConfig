@@ -27,19 +27,6 @@ if not exists then
         error("unable to create lua/local.lua")
         return
     end
-
-    if not utils.file_exists(home .. "/lua/local_base.lua") then
-        error("please create lua/local_base.lua")
-        return
-    end
-
-    local data = utils.readFileSync(home .. "/lua/local_base.lua")
-
-    local offset = utils.writeFileSync(home .. "/lua/local.lua", data)
-
-    if utils.file_exists(home .. "/lua/local_color.lua") then
-        utils.writeFileSync(home .. "/lua/local.lua", utils.readFileSync(home .. "/lua/local_color.lua"), offset)
-    end
 end
 
 pcall(require, "local")
