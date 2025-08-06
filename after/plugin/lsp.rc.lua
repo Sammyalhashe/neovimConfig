@@ -99,17 +99,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 )
 
 local servers = {
-    "rust_analyzer",
-    "clangd",
-    "ts_ls",
-    "vimls",
-    "bashls",
-    "pylsp",
-    "hls",
-    "cmake",
-    "lua_ls",
-    "zls",
-    "gopls"
+    "rust_analyzer", -- rust
+    "clangd", -- c/c++
+    "ts_ls", -- typescript
+    "vimls", -- vim
+    "bashls", -- bash
+    "pylsp", -- python
+    "hls", -- haskell
+    "cmake", -- cmake
+    "lua_ls", -- lua
+    "zls", -- zig
+    "gopls" -- go
 }
 local capabilities =
     require("cmp_nvim_lsp").default_capabilities(
